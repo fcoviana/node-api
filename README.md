@@ -9,3 +9,13 @@
 ```shell 
     npm i express --save
 ```
+
+#### Instalar o sequelize
+```shell 
+    npm i --save sequelize
+```
+
+#### Instalar o postgres
+```shell 
+    npm i --save pg pg-hstore 
+```
