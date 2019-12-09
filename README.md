@@ -19,3 +19,5 @@
 ```shell 
     npm i --save pg pg-hstore 
 ```
+
+ npm i http-status --save

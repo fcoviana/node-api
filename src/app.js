@@ -1,19 +1,29 @@
-const http = require("http");
-const express = require("express");
+const express = require('express')
+const http = require('http')
+const status = require('http-status')
+const routes = require('./routes/routes')
+const sequelize = require('./database/database')
 
 const app = express();
 
-const hostname = "127.0.0.1";
-const port = 3000;
+app.use(express.json());
 
-app.set("port", port);
+app.use('/api', routes);
 
 app.use((request, response, next) => {
-    response.status(404).send();
+    response.status(status.NOT_FOUND).send();
 });
 
-const server = http.createServer(app);
+app.use((error, request, response, next) => {
+    response.status(status.INTERNAL_SERVER_ERROR).json({ error });
+});
 
-server.listen(port, hostname, () => {
-    console.log(`Servidor em execução em http:/${hostname}:${port}/`);
+sequelize.sync({ force: true }).then(() => {
+    const port = process.env.PORT || 3000;
+
+    app.set('port', port);
+
+    const server = http.createServer(app);
+
+    server.listen(port);
 });
