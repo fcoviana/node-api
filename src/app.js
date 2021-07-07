@@ -1,29 +1,26 @@
+require('./bootstrap');
+
 const express = require('express');
-const http = require('http');
-const status = require('http-status');
-const routes = require('./routes/routes');
-const sequelize = require('./database/database');
+const cors = require('cors');
 
-const app = express();
+const routes = require('./routes');
+class AppController {
+  constructor() {
+    this.server = express();
+    this.middleware();
+    this.routes();
+  }
 
-app.use(express.json());
+  middleware() {
+    this.server.use(express.json());
+    this.server.use(express.static(`${process.cwd()}/static/`));
+    this.server.use(cors());
+    this.server.disable('x-powered-by');
+  }
 
-app.use('/api', routes);
+  routes() {
+    this.server.use(routes);
+  }
+}
 
-app.use((request, response) => {
-  response.status(status.NOT_FOUND).send();
-});
-
-app.use((error, request, response) => {
-  response.status(status.INTERNAL_SERVER_ERROR).json({ error });
-});
-
-sequelize.sync({ force: true }).then(() => {
-  const port = process.env.PORT || 3000;
-
-  app.set('port', port);
-
-  const server = http.createServer(app);
-
-  server.listen(port);
-});
+module.exports = new AppController().server;
