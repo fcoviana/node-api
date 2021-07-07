@@ -1,23 +1,10 @@
-# Projeto API com NodeJs
+# guia-sertão-api
 
-#### Iniciar o servidor
-```shell 
-    node .
+
+ ``` shell
+    sudo npx knex migrate:make alter_products_table
+ ```
+
+``` shell
+  sudo npx knex migrate:latest 
 ```
-
-#### Instalar o express
-```shell 
-    npm i express --save
-```
-
-#### Instalar o sequelize
-```shell 
-    npm i --save sequelize
-```
-
-#### Instalar o postgres
-```shell 
-    npm i --save pg pg-hstore 
-```
-
- npm i http-status --save
